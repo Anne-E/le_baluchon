@@ -11,7 +11,7 @@ import UIKit
 
 class CurrencyView : UIView {
     
-    @IBOutlet weak var inputField: CurrencyField!
+    @IBOutlet weak var inputField: UITextField!
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var currencyInput: UILabel!
     
@@ -28,12 +28,10 @@ class CurrencyView : UIView {
     }
     
     @IBAction func convertClicked(_ sender: Any) {
-        if let action = actionClicked, let text = inputField.text {
-            var valueString = text.replacingOccurrences(of: ",", with: ".")
-            valueString = valueString.replacingOccurrences(of: " €", with: "")
-            if let value = Float(valueString) {
-                action(value)
-            }
+        
+        if let value = Float(inputField.text ?? ""),
+            let action = actionClicked {
+            action(value)
         }
     }
     
