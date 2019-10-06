@@ -10,4 +10,7 @@ import Foundation
 
 class Configuration {
     static let FixerAPIKey = ""
+    static let GoogleAPIKey = ""
+    static let GoogleAPISecret = ""
+    static let WeatherAPIKey = ""
 }
