@@ -12,15 +12,34 @@ import UIKit
 class CurrencyViewController: UIViewController {
     
     @IBOutlet var currencyView: CurrencyView!
-    
+
+    private var exchangeRate: Double?
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         currencyView.actionClicked = convert(value:)
-        
     }
     
-    func convert(value: Float) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.refreshExchangeRate()
+    }
+    
+    func refreshExchangeRate() {
+        CurrencyAPI.shared.getCurrency { (success, result) in
+            self.exchangeRate = result
+            debugPrint(success)
+            debugPrint(result)
+        }
+    }
+    
+    func convert(value: Double) {
+        self.refreshExchangeRate()
         print(value)
-        currencyView.displayResult(value: value * 2)
+        if let exchangeRate = exchangeRate {
+            currencyView.displayResult(value: value * exchangeRate)
+        } else {
+            currencyView.displayError()
+        }
     }
 }

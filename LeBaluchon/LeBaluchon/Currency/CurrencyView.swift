@@ -15,7 +15,7 @@ class CurrencyView : UIView {
     @IBOutlet weak var resultLabel: UILabel!
     @IBOutlet weak var currencyInput: UILabel!
     
-    var actionClicked : ((Float) -> Void)?
+    var actionClicked : ((Double) -> Void)?
     
     override func didMoveToSuperview() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -29,14 +29,18 @@ class CurrencyView : UIView {
     
     @IBAction func convertClicked(_ sender: Any) {
         
-        if let value = Float(inputField.text ?? ""),
+        if let value = Double(inputField.text ?? ""),
             let action = actionClicked {
             action(value)
         }
     }
     
     
-    public func displayResult(value: Float) {
-        resultLabel.text = "\(value) $"
+    public func displayResult(value: Double) {
+        resultLabel.text = "\(Double(round(100*value)/100)) $"
+    }
+    
+    public func displayError() {
+        resultLabel.text = "Exchange rate not available"
     }
 }
